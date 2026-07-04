@@ -1,0 +1,68 @@
+.attendance-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+  }
+}
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+table {
+  width: 100%;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  
+  &.present {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  &.absent {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  &.half_day {
+    background-color: #fff8e1;
+    color: #f57f17;
+  }
+}

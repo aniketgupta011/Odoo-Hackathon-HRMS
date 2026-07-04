@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Confirm {{ data.action === 'APPROVE' ? 'Approval' : 'Rejection' }}</h2>
+<mat-dialog-content>
+  <p>Are you sure you want to {{ data.action | lowercase }} this leave request?</p>
+  
+  <form [formGroup]="actionForm" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Admin Remarks {{ data.action === 'REJECT' ? '(Required)' : '(Optional)' }}</mat-label>
+      <textarea matInput formControlName="admin_remarks" rows="3" placeholder="Add some feedback notes"></textarea>
+      <mat-error *ngIf="actionForm.get('admin_remarks')?.hasError('required')">Remarks are required for rejection</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button [color]="data.action === 'APPROVE' ? 'primary' : 'warn'" (click)="onSubmit()" [disabled]="actionForm.invalid">
+    Confirm {{ data.action }}
+  </button>
+</mat-dialog-actions>

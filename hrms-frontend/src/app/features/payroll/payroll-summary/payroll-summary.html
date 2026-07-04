@@ -1,0 +1,96 @@
+<div class="payroll-container">
+  
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Employee View -->
+  <mat-card class="payroll-card" *ngIf="!isAdmin && myPayroll && !isLoading">
+    <mat-card-header>
+      <mat-card-title>My Payroll Summary</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="payroll-stats">
+      <div class="stat-box">
+        <span class="label">Base Salary</span>
+        <span class="value">{{ myPayroll.base_salary | currency }}</span>
+      </div>
+      <div class="stat-box bonus">
+        <span class="label">Bonus</span>
+        <span class="value">+ {{ myPayroll.bonus | currency }}</span>
+      </div>
+      <div class="stat-box deductions">
+        <span class="label">Deductions</span>
+        <span class="value">- {{ myPayroll.deductions | currency }}</span>
+      </div>
+      <div class="stat-box total">
+        <span class="label">Net Salary</span>
+        <span class="value">{{ (myPayroll.base_salary + myPayroll.bonus - myPayroll.deductions) | currency }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div *ngIf="!isAdmin && !myPayroll && !isLoading" class="no-data">
+    <p>No payroll data configured for your account.</p>
+  </div>
+
+  <!-- Admin View -->
+  <div *ngIf="isAdmin && !isLoading">
+    <h2>Payroll Administration</h2>
+    
+    <div class="admin-grid">
+      <!-- Employee List -->
+      <mat-card class="employee-list-card">
+        <mat-list>
+          <div mat-subheader>Select Employee to Update Payroll</div>
+          <mat-list-item *ngFor="let emp of employees" 
+                        (click)="selectEmployee(emp.id)"
+                        [class.selected]="emp.id === selectedEmployeeId"
+                        class="clickable-item">
+            <mat-icon matListItemIcon>person</mat-icon>
+            <div matListItemTitle>{{ emp.full_name }}</div>
+            <div matListItemLine>{{ emp.email }} ({{ emp.role }})</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+
+      <!-- Update Form -->
+      <mat-card class="update-form-card" *ngIf="selectedEmployeeId">
+        <mat-card-header>
+          <mat-card-title>Update Salary Parameters</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="payrollForm" (ngSubmit)="updatePayroll()" class="payroll-form">
+            
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Base Salary</mat-label>
+              <input matInput type="number" formControlName="base_salary">
+              <mat-icon matPrefix>attach_money</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Bonus</mat-label>
+              <input matInput type="number" formControlName="bonus">
+              <mat-icon matPrefix>attach_money</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Deductions</mat-label>
+              <input matInput type="number" formControlName="deductions">
+              <mat-icon matPrefix>attach_money</mat-icon>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="payrollForm.invalid || isSaving" class="full-width">
+              <mat-spinner diameter="20" *ngIf="isSaving" class="spinner-margin"></mat-spinner>
+              Update Payroll
+            </button>
+
+          </form>
+        </mat-card-content>
+      </mat-card>
+      
+      <div *ngIf="!selectedEmployeeId" class="select-prompt">
+        <mat-icon>arrow_back</mat-icon> Select an employee from the list
+      </div>
+    </div>
+  </div>
+</div>

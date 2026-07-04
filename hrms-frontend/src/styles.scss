@@ -1,0 +1,60 @@
+// Include theming for Angular Material with `mat.theme()`.
+@use '@angular/material' as mat;
+
+:root {
+  // Premium Black and Blue Dark Theme Colors
+  --bg-dark: #0a0a0a;
+  --bg-card: #111827; // Deep slate/black for cards and sidebars
+  --bg-glass: rgba(17, 24, 39, 0.7); // Glassmorphism background
+  
+  --primary-blue: #3b82f6; // Vibrant neon blue
+  --primary-blue-hover: #2563eb;
+  --primary-blue-light: rgba(59, 130, 246, 0.15); // For active states
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-active: rgba(59, 130, 246, 0.4);
+}
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  color-scheme: dark;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Inter', 'Roboto', sans-serif;
+  margin: 0;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-blue);
+}
